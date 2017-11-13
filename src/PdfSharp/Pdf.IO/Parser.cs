@@ -1039,7 +1039,9 @@ namespace PdfSharp.Pdf.IO
                 PdfTrailer trailer = ReadXRefTableAndTrailer(_document._irefTable);
                 // 1st trailer seems to be the best.
                 if (_document._trailer == null)
-                    _document._trailer = trailer;
+                    _document._trailer = trailer == null ? new PdfTrailer(_document) : trailer;
+                if (trailer == null)
+                    break;
                 int prev = trailer.Elements.GetInteger(PdfTrailer.Keys.Prev);
                 if (prev == 0)
                     break;
